@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
 require('dotenv').config();
+const serverless = require("serverless-http");
 
 
 const PORT = process.env.PORT || 5000;
@@ -43,3 +44,5 @@ app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     console.log('Press Ctrl+C to stop the server.');
 });
+
+module.exports.handler = serverless(app);
