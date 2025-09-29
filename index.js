@@ -9,7 +9,7 @@ const serverless = require("serverless-http");
 
 const PORT = process.env.PORT || 5000;
 
-// ROUTES
+// ROUTES for
 const StudentsRoutes = require('./Routes/StudentsRoutes');
 const TeachersRoutes = require('./Routes/TeachersRoutes');
 const AcademicRoutes = require('./Routes/AcademicRoutes');
