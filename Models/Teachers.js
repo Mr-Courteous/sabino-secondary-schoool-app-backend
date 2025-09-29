@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Counter = require('./Count'); // Import counter model
+const Counter = require('./Counter'); // Import counter model
 
 const TeacherSchema = new mongoose.Schema({
     staffId: {
