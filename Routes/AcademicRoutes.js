@@ -153,4 +153,47 @@ router.put('/classes/:id/schedule', async (req, res) => {
     }
 });
 
-module.exports = router;
+
+
+
+
+
+router.post('/add-new-class', async (req, res) => {
+    try {
+        const { className, mandatorySubjects } = req.body;
+
+        // Basic validation
+        if (!className || !Array.isArray(mandatorySubjects)) {
+            return res.status(400).json({ 
+                message: 'Missing required fields: className and mandatorySubjects are required.' 
+            });
+        }
+
+        // 1. Create a new Class document
+        const newClass = new Class({
+            className,
+            // Assuming mandatorySubjects is an array of valid Subject ObjectIds from the client
+            mandatorySubjects: mandatorySubjects 
+        });
+
+        // 2. Save the class to the database
+        const savedClass = await newClass.save();
+
+        // 3. Respond with the created class object
+        res.status(201).json(savedClass);
+
+    } catch (error) {
+        // Handle MongoDB unique index error (e.g., if class already exists)
+        if (error.code === 11000) {
+            return res.status(409).json({ 
+                message: 'A class with this name already exists.' 
+            });
+        }
+        console.error('Error adding class:', error);
+        res.status(500).json({ 
+            message: 'Server error: Could not add the class.',
+            error: error.message 
+        });
+    }
+});
+module.exports = router; 
