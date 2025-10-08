@@ -23,6 +23,7 @@ connectDB();
 
 // Use CORS middleware to allow requests from any origin
 // You can configure it further if you need to restrict origins, methods, or headers
+
 app.use(cors());
 app.use(express.json()); 
 app.use(express.json()); 

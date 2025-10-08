@@ -4,6 +4,8 @@ const router = express.Router();
 const TermResult = require('../Models/TermResults'); 
 // We must import the Class model to know the mandatory subjects
 const ClassModel = require('../Models/Classes'); 
+const Student = require('../Models/Students'); 
+
 // Assuming Subject model exists, though it's not directly used for creation, only for reference
 
 // --- HELPER FUNCTION: Create Default Term Result (DEFINITION STARTS HERE) ---
@@ -15,7 +17,7 @@ const ClassModel = require('../Models/Classes');
  * @param {string} classId 
  * @param {string} academicYear 
  * @param {string} term 
- * @param {string} recordedById - The ID of the Registrar or Admin performing the registration.
+//  * @param {string} recordedById - The ID of the Registrar or Admin performing the registration.
  */
 async function createDefaultResult(studentId, classId, academicYear, term, recordedById) {
     // 1. Get the mandatory subjects for the class
@@ -38,7 +40,7 @@ async function createDefaultResult(studentId, classId, academicYear, term, recor
         class: classId,
         academicYear: academicYear,
         term: term,
-        recordedBy: recordedById,
+        // recordedBy: recordedById,
         grades: defaultGrades
     };
 
@@ -62,7 +64,7 @@ router.post('/initialize', async (req, res) => {
     try {
         const { studentId, classId, academicYear, term, recordedBy } = req.body;
 
-        if (!studentId || !classId || !academicYear || !term || !recordedBy) {
+        if (!studentId || !classId || !academicYear || !term ) {
             return res.status(400).json({
                 message: 'Missing required initialization parameters (studentId, classId, academicYear, term, recordedBy).'
             });

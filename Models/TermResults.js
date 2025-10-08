@@ -9,7 +9,7 @@ const SubjectGradeSchema = new mongoose.Schema({
         ref: 'Subject',
         required: true
     },
-    
+
     // Total CA score (e.g., out of 40)
     caScore: {
         type: Number,
@@ -35,25 +35,25 @@ const TermResultSchema = new mongoose.Schema({
         required: true,
         index: true
     },
-    
+
     // Class ID (Class model assumed to exist)
     class: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',
         required: true
     },
-    
-    academicYear: { 
-        type: String, 
-        required: true 
+
+    academicYear: {
+        type: String,
+        required: true
     },
-    
+
     term: {
         type: String,
         enum: ['1st Term', '2nd Term', '3rd Term'],
         required: true
     },
-    
+
     // The core change: an array of all subject grades for this term
     grades: {
         type: [SubjectGradeSchema],
@@ -62,8 +62,7 @@ const TermResultSchema = new mongoose.Schema({
 
     recordedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Teacher',
-        required: true
+        ref: 'Teacher'
     }
 }, {
     timestamps: true

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Subject = require('../Models/Subjects');
 const Class = require('../Models/Classes');
+const mongoose = require('mongoose');
 // NOTE: Assuming you implement and use the auth middleware on protected routes
 
 // --- SUBJECT ROUTES ---
@@ -123,17 +124,35 @@ router.post('/classes', async (req, res) => {
 // });
 // @route GET /api/academics/classes
 // @desc Get all classes
+// router.get('/many-classes', async (req, res) => {
+//     try {
+//         const classes = await Class.find()
+//             // .populate('homeroomTeacher', 'name')
+//             .populate('subjectsSchedule.subject', 'subjectName subjectCode')
+//             // .populate('subjectsSchedule.teacher', 'name');
+//         res.json(classes);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
+
 router.get('/many-classes', async (req, res) => {
     try {
-        const classes = await Class.find()
-            // .populate('homeroomTeacher', 'name')
-            .populate('subjectsSchedule.subject', 'subjectName subjectCode')
-            // .populate('subjectsSchedule.teacher', 'name');
+        // Find all Class documents, but only select the 'className' field (and '_id' by default)
+        const classes = await Class.find({}, 'className');
+        
+        // If you want *only* the className and explicitly exclude _id, you could use:
+        // const classes = await Class.find({}, { className: 1, _id: 0 });
+
+        // Note: The previous .populate() calls were removed as they are not needed
+        // to return only the className and would fetch unnecessary data.
+
         res.json(classes);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 // @route PUT /api/academics/classes/:id/schedule
 // @desc Update the subject-teacher schedule for a class (Admin only)
